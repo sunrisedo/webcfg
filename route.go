@@ -9,19 +9,46 @@ import (
 
 //Configure the routing
 var RouteMap = map[string]func(http.ResponseWriter, *http.Request){
-	"/admin/": AdminRoute,
+	"/server/": ServerRoute,
+	"/alert/":  AlertRoute,
 }
 
+func ServerRoute(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*") //允许访问所有域
+	// w.Header().Add("Access-Control-Allow-Headers", "Content-Type") //header的类型
+	// w.Header().Set("content-type", "application/json")             //返回数据格式是json
 
-func AdminRoute(w http.ResponseWriter, r *http.Request) {
 	client := controllers.NewController(w, r, cfg)
-	parts := strings.Split(strings.Trim(r.URL.Path, "/"), "/")
-	if len(parts) < 2 {
+	url := strings.Trim(r.URL.Path, "/")
+	// log.Println("url", url)
+	parts := strings.Split(url, "/")
+	inMethod := strings.Title(url)
+	if len(parts) >= 2 {
+		inMethod = strings.Title(parts[1])
+	}
+
+	controller := reflect.ValueOf(&controllers.Server{Controller: client})
+	method := controller.MethodByName(inMethod)
+	if !method.IsValid() {
 		client.Error()
 		return
 	}
-	controller := reflect.ValueOf(&controllers.Admin{client})
-	method := controller.MethodByName(strings.Title(parts[1]))
+
+	method.Call(nil)
+}
+
+func AlertRoute(w http.ResponseWriter, r *http.Request) {
+	client := controllers.NewController(w, r, cfg)
+	url := strings.Trim(r.URL.Path, "/")
+	// log.Println("url", url)
+	parts := strings.Split(url, "/")
+	inMethod := strings.Title(url)
+	if len(parts) >= 2 {
+		inMethod = strings.Title(parts[1])
+	}
+
+	controller := reflect.ValueOf(&controllers.Alert{Controller: client})
+	method := controller.MethodByName(inMethod)
 	if !method.IsValid() {
 		client.Error()
 		return

@@ -4,6 +4,7 @@ import (
 	"log"
 	"net/http"
 	"runtime"
+	"sunrise/webcfg/datas"
 
 	"github.com/sunrisedo/conf"
 )
@@ -16,7 +17,9 @@ func init() {
 	// 初始化配置文件
 	log.SetFlags(log.Lshortfile | log.LstdFlags)
 	log.Println("init data start...")
-	CreateDir(cfg.Read("file", "uploadpath"))
+	datas.NewDir(cfg.Read("file", "uploadpath"))
+	datas.NewGoodsData(cfg.Read("file", "uploadpath"))
+	datas.NewDingConn(cfg.Read("ding", "corpid"), cfg.Read("ding", "corpsecret"))
 	log.Println("init data finish.")
 }
 
@@ -28,10 +31,8 @@ func main() {
 	for addr, controller := range RouteMap {
 		http.HandleFunc(addr, controller)
 	}
-	log.Println("init route finish.")
-
-	log.Println("listen port", cfg.Read("server", "port"))
-	http.Handle("/", http.FileServer(http.Dir("webroot")))
+	log.Println("init route finish. listen port", cfg.Read("server", "port"))
+	// http.Handle("/webroot/", http.FileServer(http.Dir("webroot")))
 	log.Println(http.ListenAndServe(cfg.Read("server", "port"), nil))
 }
 

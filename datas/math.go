@@ -1,6 +1,7 @@
-package main
+package datas
 
 import (
+	"fmt"
 	"io"
 	"io/ioutil"
 	"log"
@@ -27,7 +28,7 @@ func checkFileIsExist(filename string) bool {
 	return exist
 }
 
-func CreateDir(dirName string) {
+func NewDir(dirName string) {
 	if checkFileIsExist(dirName) {
 		return
 	}
@@ -42,4 +43,10 @@ func CreateDir(dirName string) {
 	} else if err := os.Mkdir(dir+path+dirName, os.ModePerm); err != nil {
 		log.Println("create dir error:", err)
 	}
+}
+
+func StringToFloat(str string) float64 {
+	var value float64
+	fmt.Sscanf(str, "%f", &value)
+	return value
 }
