@@ -3,6 +3,7 @@ package controllers
 import (
 	"fmt"
 	"io"
+	"log"
 	"net/http"
 	"os"
 	"sunrise/webcfg/datas"
@@ -117,4 +118,9 @@ func (c *Server) Symbolinit() {
 
 	// log.Println("goods", &datas.InitWeb{product, market, currency})
 	c.ResultJson(520, "Init data is nil.")
+}
+
+func (c *Server) Appmarket() {
+
+	log.Println("git update!")
 }

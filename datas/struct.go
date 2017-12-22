@@ -85,9 +85,9 @@ type RamGoods struct {
 }
 
 type RamGoodsValue struct {
-	Market   interface{} `json:"Market,omitempty"`
-	Product  interface{} `json:"Product,omitempty"`
-	Currency interface{} `json:"Currency,omitempty"`
+	Market   interface{} `json:"market,omitempty"`
+	Product  interface{} `json:"product,omitempty"`
+	Currency interface{} `json:"currency,omitempty"`
 }
 
 func NewRamGoods() *RamGoods {

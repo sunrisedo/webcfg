@@ -7,7 +7,48 @@ import (
 	"sunrise/webcfg/controllers"
 )
 
-//Configure the routing
+// var RouteMap = map[string]interface{}{
+// 	"/server/": &controllers.Server{&controllers.Controller{}},
+// 	"/alert/":  &controllers.Alert{&controllers.Controller{}},
+// }
+
+// func NewRoute() map[string]func(http.ResponseWriter, *http.Request) {
+// 	route := make(map[string]func(http.ResponseWriter, *http.Request))
+// 	for addr, inter := range RouteMap {
+// 		// route[addr] = createRoute(inter)
+// 		obj := reflect.ValueOf(inter)
+
+// 		log.Println(addr, obj.InterfaceData())
+
+// 	}
+// 	return route
+// }
+
+// func createRoute(route interface{}) func(http.ResponseWriter, *http.Request) {
+// 	// switch () {
+// 	// 	case
+// 	// }
+// 	routeFunc := func(w http.ResponseWriter, r *http.Request) {
+// 		client := controllers.NewController(w, r, cfg)
+// 		route.(Controller) = client
+// 		url := strings.Trim(r.URL.Path, "/")
+// 		parts := strings.Split(url, "/")
+// 		inMethod := strings.Title(url)
+// 		if len(parts) >= 2 {
+// 			inMethod = strings.Title(parts[1])
+// 		}
+
+// 		method := reflect.ValueOf({client}).MethodByName(inMethod)
+// 		if !method.IsValid() {
+// 			client.Error()
+// 			return
+// 		}
+// 		method.Call(nil)
+// 	}
+// 	return routeFunc
+// }
+
+// Configure the routing
 var RouteMap = map[string]func(http.ResponseWriter, *http.Request){
 	"/server/": ServerRoute,
 	"/alert/":  AlertRoute,
